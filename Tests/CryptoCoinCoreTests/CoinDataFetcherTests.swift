@@ -8,7 +8,7 @@
 import Foundation
 import Testing
 
-@testable import CryptoCoin
+@testable import CryptoCoinCore
 
 @Suite("CoinDataFetcher Unit Tests")
 class CoinDataFetcherTests {

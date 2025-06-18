@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "CryptoCoin",
+    name: "CryptoCoinCore",
     platforms: [
         .iOS(.v15),
         .macOS(.v10_15),
@@ -14,17 +14,17 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "CryptoCoin",
-            targets: ["CryptoCoin"]),
+            name: "CryptoCoinCore",
+            targets: ["CryptoCoinCore"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "CryptoCoin"),
+            name: "CryptoCoinCore"),
         .testTarget(
-            name: "CryptoCoinTests",
-            dependencies: ["CryptoCoin"],
+            name: "CryptoCoinCoreTests",
+            dependencies: ["CryptoCoinCore"],
             resources: [
                 .process("Resources/coins.json"),
                 .process("Resources/coins_response_valid.json")

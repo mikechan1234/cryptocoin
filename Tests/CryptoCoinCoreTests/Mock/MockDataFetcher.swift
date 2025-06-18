@@ -5,7 +5,7 @@
 //  Created by Michael Chan on 12/06/2025.
 //
 
-@testable import CryptoCoin
+@testable import CryptoCoinCore
 import Foundation
 import Combine
 
