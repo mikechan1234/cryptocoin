@@ -24,11 +24,11 @@ struct AnyTopLevelDecoderTests {
     
     @Test("Test the decoder works when the mockDecoder throws")
     func testDecoderWhenDecoderThrows() async throws {
-        let expectedResult = CoinError.dataCorrupted
+        let expectedResult = CoinDataFetcher.Error.unknown
         let mockDecoder = MockTopLevelDecoder(result: .failure(expectedResult))
         let decoder = AnyTopLevelDecoder(decoder: mockDecoder)
         
-        let result = #expect(throws: CoinError.self) {
+        let result = #expect(throws: CoinDataFetcher.Error.self) {
             try decoder.decode(String.self, from: Data())
         }
         

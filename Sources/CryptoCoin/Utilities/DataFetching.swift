@@ -10,6 +10,7 @@ import Combine
 
 public protocol DataFetching {
     func dataTaskPublisher(for request: URLRequest) -> AnyPublisher<URLSession.DataTaskPublisher.Output, URLSession.DataTaskPublisher.Failure>
+    func data(for request: URLRequest) async throws -> (Data, URLResponse)
 }
 
 extension URLSession: DataFetching {

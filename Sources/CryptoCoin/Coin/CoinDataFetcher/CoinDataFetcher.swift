@@ -10,6 +10,7 @@ import Combine
 
 public protocol CoinDataFetching {
     func coins() -> AnyPublisher<[Coin], CoinDataFetcher.Error>
+    func coins() async throws(CoinDataFetcher.Error) -> [Coin]
 }
 
 public struct CoinDataFetcher: CoinDataFetching {
@@ -46,7 +47,7 @@ public struct CoinDataFetcher: CoinDataFetching {
                 .map(\.data.coins)
                 .mapError({ value in
                     guard let error = value as? CoinDataFetcher.Error else {
-                        return .decodingFailed
+                        return .requestFailed
                     }
                     return error
                 })
@@ -55,6 +56,33 @@ public struct CoinDataFetcher: CoinDataFetching {
             return Fail(outputType: [Coin].self, failure: error)
                 .eraseToAnyPublisher()
         }
+    }
+    
+    public func coins() async throws(CoinDataFetcher.Error) -> [Coin] {
+        let urlRequest = try createRequest()
+        do {
+            let (data, response) = try await fetcher.data(for: urlRequest)
+            guard let urlResponse = response as? HTTPURLResponse else {
+                throw CoinDataFetcher.Error.invalidURLResponse
+            }
+            
+            switch urlResponse.statusCode {
+                case 200..<300:
+                    break
+                default:
+                    throw CoinDataFetcher.Error.invalidStatusCode(urlResponse.statusCode)
+            }
+            
+            let value = try decoder.decode(CoinResponse.self, from: data)
+            return value.data.coins
+        } catch {
+            guard let typedError = error as? CoinDataFetcher.Error else {
+                throw .requestFailed
+            }
+            
+            throw typedError
+        }
+        
     }
     
     private func createRequest() throws(CoinDataFetcher.Error) -> URLRequest {

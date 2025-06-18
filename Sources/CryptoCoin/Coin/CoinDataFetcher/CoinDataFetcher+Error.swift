@@ -10,7 +10,7 @@ import Foundation
 extension CoinDataFetcher {
     public enum Error: Swift.Error, Equatable {
         case unknown
-        case decodingFailed
+        case requestFailed
         case malformedURL
         case invalidURLResponse
         case invalidStatusCode(Int)

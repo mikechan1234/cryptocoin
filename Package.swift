@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "CryptoCoin",
     platforms: [
-        .iOS(.v13),
+        .iOS(.v15),
         .macOS(.v10_15),
-        .tvOS(.v13),
-        .watchOS(.v6)
+        .tvOS(.v15),
+        .watchOS(.v8)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -24,7 +24,11 @@ let package = Package(
             name: "CryptoCoin"),
         .testTarget(
             name: "CryptoCoinTests",
-            dependencies: ["CryptoCoin"]
+            dependencies: ["CryptoCoin"],
+            resources: [
+                .process("Resources/coins.json"),
+                .process("Resources/coins_response_valid.json")
+            ]
         ),
     ]
 )

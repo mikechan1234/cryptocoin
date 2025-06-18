@@ -5,7 +5,7 @@
 //  Created by Michael Chan on 12/06/2025.
 //
 
-@testable import CryptoCoins
+@testable import CryptoCoin
 import Foundation
 import Combine
 
@@ -20,5 +20,14 @@ struct MockDataFetcher: DataFetching {
         Future<URLSession.DataTaskPublisher.Output, URLSession.DataTaskPublisher.Failure> { promise in
             promise(result)
         }.eraseToAnyPublisher()
+    }
+    
+    func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+        switch result {
+            case .success(let success):
+                return success
+            case .failure(let failure):
+                throw failure
+        }
     }
 }
